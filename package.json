@@ -2,16 +2,19 @@
   "name": "tugas-1-prak-ppl1",
   "version": "1.0.0",
   "description": "IT Asset Inventory API merupakan sistem RESTful API sederhana yang dirancang untuk mendokumentasikan dan mengelola aset infrastruktur teknologi informasi, seperti server dan perangkat jaringan.",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest --forceExit",
+    "test:ci": "jest --forceExit --ci"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nazwaanasha/tugas-1-prak-ppl1.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nazwa Nashatasya",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/nazwaanasha/tugas-1-prak-ppl1/issues"
