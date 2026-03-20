@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "IT Asset Inventory API merupakan sistem RESTful API sederhana yang dirancang untuk mendokumentasikan dan mengelola aset infrastruktur teknologi informasi, seperti server dan perangkat jaringan.",
   "main": "src/server.js",
+  "type": "module",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest --forceExit",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit",
     "test:ci": "jest --forceExit --ci"
   },
   "repository": {
