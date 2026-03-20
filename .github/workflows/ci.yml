@@ -1,0 +1,66 @@
+name: CI/CS Pipeline - IT Asset Inventory API
+
+# Trigger: berjalan otomatis saat push atau pull request
+on:
+  push:
+    branches: [ main, develop, 'feature/**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # ─── Job 1: Unit Testing (CI) ─────────────────────────────────
+  test:
+    name: Unit Test (CI)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependensi
+        run: npm ci
+
+      - name: Jalankan Unit Test
+        run: npm test
+
+  # ─── Job 2: Security Scan (CS) ────────────────────────────────
+  security:
+    name: Security Scan (CS)
+    runs-on: ubuntu-latest
+    needs: test    # Hanya berjalan jika test lulus
+
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependensi
+        run: npm ci
+
+      - name: Security Scan — npm audit
+        run: npm audit --audit-level=high
+        # Akan gagal (fail) jika ada vulnerability tingkat HIGH/CRITICAL
+
+  # ─── Job 3: Docker Build Check ────────────────────────────────
+  docker-build:
+    name: Docker Build Check
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t it-asset-inventory-api:test .
